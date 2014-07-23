@@ -117,11 +117,11 @@ the generation of a class list and an automatic constructor.
 -(void)tappedYo:(id)selector;
 @end
 
-@implementation QuickYoTapDelegate
+@implementation QuickYoTapDelegate //This is our own class to handle actions
 
 -(void)tappedYo:(id)selector {
 	UIAlertView *alert = [[[UIAlertView alloc] initWithTitle:@"Yo! Quick Reply" message:@"This would normally send a Yo (but that's not in yet" delegate:self cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease];
-    // optional - add more buttons:
+    
     [alert show];
 }
 
@@ -146,47 +146,49 @@ the generation of a class list and an automatic constructor.
 
 %end*/
 
-%hook SBBannerContextView
+%hook SBBannerContextView //Hooking all banner views
 
 -(id)initWithFrame:(CGRect)frame {
-	//BBBulletin *seedBulletin= self.bannerContext.item.seedBulletin;
-	NSString *bid = [self.bannerContext.item.seedBulletin sectionID];
-	NSLog(@"%@", bid);
-	//if ([bid isEqualToString:@"com.yo.yo"]){
-		UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(20, 20, 20, 20)];
+	BBBulletin *seedBulletin= self.bannerContext.item.seedBulletin; //Get the banner controller for the given view.
+	NSString *bid = [seedBulletin sectionID]; //Get the BundleID of the banner
+	NSLog(@"%@", bid); //Log the ID
+	/*
+	 if ([bid isEqualToString:@"com.yo.yo"]){ //This checks the bundle ID to Yo's
+	 */
+	UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(20, 20, 20, 20)]; //creates a button (not used)
 		
-		UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:%c(QuickYoTapDelegate) action:@selector(tappedYo:)];
-	UILabel *alabel = [[UILabel alloc] init];
-	[alabel addGestureRecognizer:gestureRecognizer];
-	alabel.userInteractionEnabled = YES;
-	alabel.text = @"Yo!";
-		alabel.textColor  = [UIColor colorWithRed:0.6 green:0.35 blue:0.71 alpha:1.0];
-	alabel.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 40, 20, 80, 20);
-	alabel.font = [UIFont boldSystemFontOfSize:17];
-	UIView *square = [[UIView alloc] initWithFrame:CGRectMake(20, 20, 20, 20)];
-	square.backgroundColor = [UIColor whiteColor];
-		[button setTitleColor:[UIColor whiteColor] forState:0];
-		UIFont *font = [UIFont boldSystemFontOfSize:17];
-	NSDictionary *attrsDictionary = @{ font : NSFontAttributeName, [UIColor whiteColor] : NSForegroundColorAttributeName };
-		NSAttributedString *label = [[NSAttributedString alloc] initWithString:@"Yo!" attributes:attrsDictionary];
+	UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:%c(QuickYoTapDelegate) action:@selector(tappedYo:)]; //Creates a recognizer for a Tap Gesture
+	
+	
+	
+	UILabel *alabel = [[UILabel alloc] init]; //Creates a label
+	
+	[alabel addGestureRecognizer:gestureRecognizer]; //Adds the gesture recognizer to the label
+	alabel.userInteractionEnabled = YES; // Can interact with label
+	alabel.text = @"Yo!"; // Sets the label's text
+	alabel.textColor  = [UIColor colorWithRed:0.6 green:0.35 blue:0.71 alpha:1.0]; // Sets the label's text color
+	alabel.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - 40, 20, 80, 20); // Set's the labels position and bounds
+	
+	alabel.font = [UIFont boldSystemFontOfSize:17]; // Sets the label's font
+	
+	UIView *square = [[UIView alloc] initWithFrame:CGRectMake(20, 20, 20, 20)]; //This is the blank white testing square
+	square.backgroundColor = [UIColor whiteColor]; //sets the square's color
+	[button setTitleColor:[UIColor whiteColor] forState:0]; //Sets the button's title color
+	UIFont *font = [UIFont boldSystemFontOfSize:17]; //Creates a bold font instance
+	
+	NSDictionary *attrsDictionary = @{ font : NSFontAttributeName, [UIColor whiteColor] : NSForegroundColorAttributeName }; // Makes a dictionary that says what attributes a string will have (font and color)
+	
+	NSAttributedString *label = [[NSAttributedString alloc] initWithString:@"Yo!" attributes:attrsDictionary]; //creates the string with attributes above
 		//label.font = font;
-		[button setAttributedTitle:label forState:0];
+	[button setAttributedTitle:label forState:0]; //Sets the button's label
 		
 		
-		[%orig addSubview:button];
-	[%orig addSubview:alabel];
+	[%orig addSubview:button]; //Adds the button to the banner
+	[%orig addSubview:alabel]; // Adds the label to the banner
 																	  //[%orig addSubview:square];
 																	  //}
 	
 	return %orig;
-}
-
-%new
-
--(void)tappedYo:(id)selector {
-	UIView *square = [[UIView alloc] initWithFrame:CGRectMake(20, 20, 20, 20)];
-	square.backgroundColor = [UIColor whiteColor];
-	[self addSubview:square];
 }
 
 
