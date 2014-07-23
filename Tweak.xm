@@ -183,12 +183,14 @@ the generation of a class list and an automatic constructor.
 	[button setAttributedTitle:label forState:0]; //Sets the button's label
 		
 		
+	//%orig is how we refer to the original value that is passed (here it's the instance of the banner)
+	
 	[%orig addSubview:button]; //Adds the button to the banner
 	[%orig addSubview:alabel]; // Adds the label to the banner
 																	  //[%orig addSubview:square];
 																	  //}
 	
-	return %orig;
+	return %orig; //Returns the original banner, with the above modifications
 }
 
 
