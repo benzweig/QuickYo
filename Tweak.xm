@@ -152,9 +152,9 @@ the generation of a class list and an automatic constructor.
 	BBBulletin *seedBulletin= self.bannerContext.item.seedBulletin; //Get the banner controller for the given view.
 	NSString *bid = [seedBulletin sectionID]; //Get the BundleID of the banner
 	NSLog(@"%@", bid); //Log the ID
-	/*
+	
 	 if ([bid isEqualToString:@"com.yo.yo"]){ //This checks the bundle ID to Yo's
-	 */
+	 
 	UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(20, 20, 20, 20)]; //creates a button (not used)
 		
 	UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:%c(QuickYoTapDelegate) action:@selector(tappedYo:)]; //Creates a recognizer for a Tap Gesture
@@ -191,6 +191,11 @@ the generation of a class list and an automatic constructor.
 																	  //}
 	
 	return %orig; //Returns the original banner, with the above modifications
+	}
+	else
+	{
+	return %orig; //Returns the original banner, with no modifications
+	}
 }
 
 
