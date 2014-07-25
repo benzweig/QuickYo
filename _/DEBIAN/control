@@ -1,10 +1,10 @@
 Package: com.bd452.quickyo
 Name: QuickYo
 Depends: mobilesubstrate
-Version: 0.0.1-19
+Version: 0.0.1-65
 Architecture: iphoneos-arm
 Description: An awesome MobileSubstrate tweak!
 Maintainer: Bryce Dougherty
 Author: Bryce Dougherty
 Section: Tweaks
-Installed-Size: 72
+Installed-Size: 4320
