@@ -1,4 +1,4 @@
-TARGET = iPhone:8.0:5.0
+TARGET = iPhone:7.1:5.0
 ARCHS = armv7 arm64
 
 THEOS_DEVICE_IP ?= localhost
